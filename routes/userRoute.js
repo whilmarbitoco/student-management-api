@@ -8,13 +8,13 @@ router.get("/", async (req, res) => {
   res.send(users);
 });
 
-router.post("/", upload.single("uploaded_file"), function (req, res) {
+router.post("/", upload.single("uploaded_file"), async (req, res) => {
   const { name, username, password } = req.body;
   const imgPath = req.file.path;
 
   try {
-    db.User.create({ name, username, password, imgPath });
-    res.status(200).send("User created");
+    const user = await db.User.create({ name, username, password, imgPath });
+    res.status(200).send(user);
   } catch (error) {
     res.status(500).send(error);
   }
