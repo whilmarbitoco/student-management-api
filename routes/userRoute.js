@@ -3,11 +3,13 @@ const router = express.Router();
 const db = require("../models");
 const upload = require("../multerConifg/upload");
 
+// Display all users
 router.get("/", async (req, res) => {
   const users = await db.User.findAll();
   res.send(users);
 });
 
+// Add a user
 router.post("/", upload.single("uploaded_file"), async (req, res) => {
   const { name, username, password } = req.body;
   const imgPath = req.file.path;
@@ -21,6 +23,7 @@ router.post("/", upload.single("uploaded_file"), async (req, res) => {
   }
 });
 
+//  Get one user by uuid
 router.get("/:uuid", async (req, res) => {
   try {
     const uuid = req.params.uuid;
