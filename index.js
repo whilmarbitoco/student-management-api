@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const db = require("./models");
 const userRouter = require("./routes/userRoute");
+const studentRoute = require("./routes/studentRoute");
 const path = require("path");
 
 const PORT = process.env.PORT || 3000;
@@ -18,9 +19,11 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRouter);
+app.use("/student", studentRoute);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
-  db.sequelize.authenticate();
+  // await db.sequelize.sync({ force: true });
+  await db.sequelize.authenticate();
   console.log("DB connected...");
 });

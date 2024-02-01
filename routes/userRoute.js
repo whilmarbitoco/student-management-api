@@ -15,8 +15,20 @@ router.post("/", upload.single("uploaded_file"), async (req, res) => {
   try {
     const user = await db.User.create({ name, username, password, imgPath });
     res.status(200).send(user);
-  } catch (error) {
-    res.status(500).send(error);
+  } catch (err) {
+    const errorMessage = err.errors[0].message;
+    res.status(500).json({ error: errorMessage });
+  }
+});
+
+router.get("/:uuid", async (req, res) => {
+  try {
+    const uuid = req.params.uuid;
+    const user = await db.User.findOne({ where: { uuid } });
+    res.status(200).json(user);
+  } catch (err) {
+    const errorMessage = err.errors[0].message;
+    res.status(500).json({ error: errorMessage });
   }
 });
 
