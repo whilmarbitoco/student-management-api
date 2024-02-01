@@ -5,12 +5,13 @@ const path = require("path");
 
 // routers
 const userRouter = require("./routes/userRoute");
-const studentRoute = require("./routes/studentRoute");
+const studentRouter = require("./routes/studentRoute");
+const loginRouter = require("./routes/loginRoute");
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 // middleware
-const app = express();
 app.use(bodyParser.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -21,7 +22,8 @@ app.get("/", (req, res) => {
 
 // routes
 app.use("/user", userRouter);
-app.use("/student", studentRoute);
+app.use("/student", studentRouter);
+app.use("/login", loginRouter);
 
 // listening
 app.listen(PORT, async () => {
