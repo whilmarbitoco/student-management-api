@@ -1,6 +1,13 @@
-// Multer config for file upload
+// // Multer config for file upload
 
 const multer = require("multer");
+
+const imageFilter = function (req, file, cb) {
+  if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+    return cb(new Error("Only image files are allowed!"), false);
+  }
+  cb(null, true);
+};
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,6 +21,9 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  fileFilter: imageFilter,
+});
 
 module.exports = upload;
