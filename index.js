@@ -27,7 +27,11 @@ app.get("/", (req, res) => {
 
 // routes
 app.use("/user", passport.authenticate("jwt", { session: false }), userRouter);
-app.use("/student", studentRouter);
+app.use(
+  "/student",
+  passport.authenticate("jwt", { session: false }),
+  studentRouter
+);
 app.use("/login", authRoute);
 
 // listening
