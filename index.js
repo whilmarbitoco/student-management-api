@@ -1,18 +1,23 @@
+require("dotenv").config();
 const express = require("express");
+const app = express();
+const passport = require("passport");
 const bodyParser = require("body-parser");
-const db = require("./models");
 const path = require("path");
+const db = require("./models");
+require("./auth/passport");
+
+const PORT = process.env.PORT || 3500;
 
 // routers
 const userRouter = require("./routes/userRoute");
 const studentRouter = require("./routes/studentRoute");
-const loginRouter = require("./routes/loginRoute");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
+const authRoute = require("./routes/authRoute");
 
 // middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // index
@@ -21,9 +26,9 @@ app.get("/", (req, res) => {
 });
 
 // routes
-app.use("/user", userRouter);
+app.use("/user", passport.authenticate("jwt", { session: false }), userRouter);
 app.use("/student", studentRouter);
-app.use("/login", loginRouter);
+app.use("/login", authRoute);
 
 // listening
 app.listen(PORT, async () => {

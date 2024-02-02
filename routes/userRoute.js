@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 // Add a user
 router.post("/", upload.single("uploaded_file"), async (req, res) => {
   const { name, username, password } = req.body;
+  console.log(req.body);
   const imgPath = req.file.path;
 
   try {
