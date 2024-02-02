@@ -6,6 +6,7 @@ A simple rest api for managing students
 
 - Node.js
 - Express.js
+- Sqlite3
 - Passport.js
 - JWT - Json Web Token
 - Multer
