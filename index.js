@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -15,6 +16,7 @@ const studentRouter = require("./routes/studentRoute");
 const authRoute = require("./routes/authRoute");
 
 // middleware
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
